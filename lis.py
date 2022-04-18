@@ -1,6 +1,6 @@
 ################ Lispy: Scheme Interpreter in Python
 
-## See http://norvig.com/lispy.html
+## Based on http://norvig.com/lispy.html
 
 import math
 import operator as op
