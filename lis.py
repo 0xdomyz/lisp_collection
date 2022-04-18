@@ -92,7 +92,7 @@ def standard_env() -> Env:
             "length": len,
             "list": lambda *x: List(x),
             "list?": lambda x: isinstance(x, List),
-            "map": map,
+            "map": lambda proc, args: [*map(proc, args)],
             "max": max,
             "min": min,
             "not": op.not_,
@@ -190,13 +190,19 @@ def repl(prompt="lis.py> "):
     93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000
     lis.py> (circle-area (fact 10))
     41369087205782.695
+
+    >>> repl()
     lis.py> (define first car)
     lis.py> (define rest cdr)
     lis.py> (define count (lambda (item L) (if L (+ (equal? item (first L)) (count item (rest L))) 0)))
     lis.py> (count 0 (list 0 1 2 3 0 0))
     3
+
+    >>> repl()
     lis.py> (count (quote the) (quote (the more the merrier the bigger the better)))
     4
+
+    >>> repl()
     lis.py> (define twice (lambda (x) (* 2 x)))
     lis.py> (twice 5)
     10
@@ -211,19 +217,26 @@ def repl(prompt="lis.py> "):
     655360
     lis.py> (pow 2 16)
     65536.0
+
+    Use map:
+
+    >>> repl()
     lis.py> (define fib (lambda (n) (if (< n 2) 1 (+ (fib (- n 1)) (fib (- n 2))))))
     lis.py> (define range (lambda (a b) (if (= a b) (quote ()) (cons a (range (+ a 1) b)))))
     lis.py> (range 0 10)
     (0 1 2 3 4 5 6 7 8 9)
     lis.py> (map fib (range 0 10))
-    <map object at 0x000002AAA4C23E50>
+    (1 1 2 3 5 8 13 21 34 55)
     lis.py> (map fib (range 0 20))
-    <map object at 0x000002AAA4F19D90>
+    (1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765)
     """
     while True:
-        val = eval(parse(input(prompt)))
-        if val is not None:
-            print(lispstr(val))
+        try:
+            val = eval(parse(input(prompt)))
+            if val is not None:
+                print(lispstr(val))
+        except Exception as ex:
+            print(ex)
 
 
 def lispstr(exp):
