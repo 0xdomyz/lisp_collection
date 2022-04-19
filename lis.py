@@ -171,7 +171,7 @@ def repl(prompt="lis.py> "):
 
     Examples
     ------------
-    >>> repl()
+    > python lis.py
     lis.py> (define r 10)
     lis.py> (* pi (* r r))
     314.159265359
@@ -179,7 +179,7 @@ def repl(prompt="lis.py> "):
     42
     lis.py> (list (+ 1 1) (+ 2 2) (* 2 3) (expt 2 3))
 
-    >>> repl()
+    > python lis.py
     lis.py> (define circle-area (lambda (r) (* pi (* r r))))
     lis.py> (circle-area 3)
     28.274333882308138
@@ -191,18 +191,18 @@ def repl(prompt="lis.py> "):
     lis.py> (circle-area (fact 10))
     41369087205782.695
 
-    >>> repl()
+    > python lis.py
     lis.py> (define first car)
     lis.py> (define rest cdr)
     lis.py> (define count (lambda (item L) (if L (+ (equal? item (first L)) (count item (rest L))) 0)))
     lis.py> (count 0 (list 0 1 2 3 0 0))
     3
 
-    >>> repl()
+    > python lis.py
     lis.py> (count (quote the) (quote (the more the merrier the bigger the better)))
     4
 
-    >>> repl()
+    > python lis.py
     lis.py> (define twice (lambda (x) (* 2 x)))
     lis.py> (twice 5)
     10
@@ -220,7 +220,7 @@ def repl(prompt="lis.py> "):
 
     Use map:
 
-    >>> repl()
+    > python lis.py
     lis.py> (define fib (lambda (n) (if (< n 2) 1 (+ (fib (- n 1)) (fib (- n 2))))))
     lis.py> (define range (lambda (a b) (if (= a b) (quote ()) (cons a (range (+ a 1) b)))))
     lis.py> (range 0 10)
@@ -229,10 +229,22 @@ def repl(prompt="lis.py> "):
     (1 1 2 3 5 8 13 21 34 55)
     lis.py> (map fib (range 0 20))
     (1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584 4181 6765)
+
+    Multi-line:
+    > python lis.py
+    (define fib 
+        (lambda (n)
+        (if (< n 2) 1 (+ (fib (- n 1)) (fib (- n 2))))))
+
+    (fib 5)
+
     """
     while True:
         try:
-            val = eval(parse(input(prompt)))
+            sentinel = ''
+            inputs = '\n'.join(iter(lambda: input(prompt), sentinel))
+            #inputs = input(prompt) # single line instead of multi line
+            val = eval(parse(inputs))
             if val is not None:
                 print(lispstr(val))
         except Exception as ex:
