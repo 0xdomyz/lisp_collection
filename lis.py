@@ -1,17 +1,27 @@
-################ Lispy: Scheme Interpreter in Python
+"""
+Lispy: Scheme Interpreter in Python
+------------------------------------
 
-## Based on http://norvig.com/lispy.html
+Based on http://norvig.com/lispy.html
+
+Objects:
+*. A Scheme Symbol is implemented as a Python str
+*. A Scheme Number is implemented as a Python int or float
+*. A Scheme Atom is a Symbol or Number
+*. A Scheme List is implemented as a Python list
+*. A Scheme expression is an Atom or List
+*. A Scheme environment is a mapping of {variable: value}
+"""
 
 import math
 import operator as op
 
-Symbol = str  # A Scheme Symbol is implemented as a Python str
-Number = (int, float)  # A Scheme Number is implemented as a Python int or float
-Atom = (Symbol, Number)  # A Scheme Atom is a Symbol or Number
-List = list  # A Scheme List is implemented as a Python list
-Exp = (Atom, List)  # A Scheme expression is an Atom or List
-Env = dict  # A Scheme environment (defined below)
-# is a mapping of {variable: value}
+Symbol = str
+Number = (int, float)
+Atom = (Symbol, Number)
+List = list
+Exp = (Atom, List)
+Env = dict
 
 
 def parse(program: str) -> Exp:
@@ -232,7 +242,7 @@ def repl(prompt="lis.py> "):
 
     Multi-line:
     > python lis.py
-    (define fib 
+    (define fib
         (lambda (n)
         (if (< n 2) 1 (+ (fib (- n 1)) (fib (- n 2))))))
 
@@ -241,9 +251,9 @@ def repl(prompt="lis.py> "):
     """
     while True:
         try:
-            sentinel = ''
-            inputs = '\n'.join(iter(lambda: input(prompt), sentinel))
-            #inputs = input(prompt) # single line instead of multi line
+            sentinel = ""
+            inputs = "\n".join(iter(lambda: input(prompt), sentinel))
+            # inputs = input(prompt) # single line instead of multi line
             val = eval(parse(inputs))
             if val is not None:
                 print(lispstr(val))
