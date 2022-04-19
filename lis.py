@@ -1,16 +1,30 @@
 """
-Lispy: Scheme Interpreter in Python
+Lis: Scheme Interpreter in Python
 ------------------------------------
 
-Based on http://norvig.com/lispy.html
+Usage:
+
+..code-block:: console
+
+    >python lis.py
+    lis.py> (define fib
+    lis.py>     (lambda (n)
+    lis.py>     (if (< n 2) 1 (+ (fib (- n 1)) (fib (- n 2))))))
+    lis.py> 
+    lis.py> (fib 5)
+    lis.py> 
+    8
 
 Objects:
+
 *. A Scheme Symbol is implemented as a Python str
 *. A Scheme Number is implemented as a Python int or float
 *. A Scheme Atom is a Symbol or Number
 *. A Scheme List is implemented as a Python list
 *. A Scheme expression is an Atom or List
 *. A Scheme environment is a mapping of {variable: value}
+
+Based on http://norvig.com/lispy.html
 """
 
 import math
